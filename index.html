@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="dist/styles.css">
+  <script src="weather.js" defer></script>
+  
+  <title>Frontend Mentor | Weather app</title>
+</head>
+<body>
+  <header>
+    <!-- THIS IS THE HEADER -->
+  </header>
+
+  <main>
+    <section class="app">
+      <section class="app__nav">
+        <img src="assets/images/logo.svg" alt="weather-now">
+        <button type="submit" id="units">
+          <img src="assets/images/icon-units.svg" alt="units">
+          <p>Units</p>
+          <img src="assets/images/icon-dropdown.svg" alt="drop-down-btn">
+        </button>
+
+        <div class="units__filter">
+          <p class="bold-text">Switch to <span class="swap">Imperial</span></p>
+          <p>Temperature</p>
+          <p class="bold">Celsius (°C) 
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark">
+          </p>
+          <p class="bold">Fahrenheit (°F) 
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark">
+          </p>
+          <hr>
+          <p>Wind Speed</p>
+          <p class="bold">km/h
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark">
+          </p>
+          <p class="bold">mph
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark">
+          </p>
+          <hr>
+          <p>Precipitation</p>
+          <p class="bold">Millimeters (mm)
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark">
+          </p>
+          <p class="bold">Inches (in)
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark">
+          </p>
+        </div>
+      </section>
+
+      <section class="app__search">
+        <form action="GET" id="search">
+          <h1>How's the sky looking today?</h1>
+          <fieldset>
+            <input type="text" name="search" required id="searchBar" placeholder="Search for a place...">
+            <label for="search">
+              <img src="/assets/images/icon-search.svg" alt="search-icon">
+            </label>
+
+            <div class="suggestions">
+              <p>city</p>
+              <p>city</p>
+              <p>city</p>
+              <p>city</p>
+            </div>
+            <button type="submit" id="searchBtn">Search</button>
+          </fieldset>
+        </form>
+      </section>
+      
+      <section class="app__dashboard">
+        <section class="city">
+          <div class="location">
+          <p id="location">Berlin, Germany</p>
+          <span id="date">Tuesday, Aug 5, 2025</span>
+          </div>
+          <div class="weather">
+            <div class="weather-icon">
+              <img src="/assets/images/icon-sunny.webp" alt="current-weather">
+            </div>
+            <p class="temp-deg">20&deg;</p>
+          </div>
+        </section>
+        <section class="weather-stats">
+          <div>
+            <p>Feels like</p>
+            <span class="temperature">18&deg;</span>
+          </div>
+          <div>
+            <p>Humidity</p>
+            <span class="humidity">46%</span>
+          </div>
+          <div>
+            <p>Wind</p>
+            <span class="wind">14 km/h</span>
+          </div>
+          <div>
+            <p>Precipitation</p>
+            <span class="precipitate">0 mm</span>
+          </div>
+        </section>
+        <section class="daily-forecast">
+          <h2>Daily forecast</h2>
+          <section class="days">
+            <div>
+            <p class="bold">Tue</p>
+            <img src=".//assets/images/icon-rain.webp" alt="">
+            <span>
+              <p>20&deg;</p>
+              <p>18&deg;</p>
+            </span>
+          </div>
+          <div>
+            <p class="bold">Wed</p>
+            <img src=".//assets/images/icon-drizzle.webp" alt="">
+            <span>
+              <p>21&deg;</p>
+              <p>43&deg;</p>
+            </span>
+          </div>
+          <div>
+            <p class="bold">Thu</p>
+            <img src=".//assets/images/icon-sunny.webp" alt="">
+            <span>
+              <p>32&deg;</p>
+              <p>21&deg;</p>
+            </span>
+          </div>
+          <div>
+            <p class="bold">Fri</p>
+            <img src=".//assets/images/icon-partly-cloudy.webp" alt="">
+            <span>
+              <p>32&deg;</p>
+              <p>21&deg;</p>
+            </span>
+          </div>
+          <div>
+            <p class="bold">Sat</p>
+            <img src=".//assets/images/icon-storm.webp" alt="">
+            <span>
+              <p>12&deg;</p>
+              <p>43&deg;</p>
+            </span>
+          </div>
+          <div>
+            <p class="bold">Sun</p>
+            <img src=".//assets/images/icon-snow.webp" alt="">
+            <span>
+              <p>30&deg;</p>
+              <p>21&deg;</p>
+            </span>
+          </div>
+          <div>
+            <p class="bold">Mon</p>
+            <img src=".//assets/images/icon-fog.webp" alt="">
+            <span>
+              <p>32&deg;</p>
+              <p>22&deg;</p>
+            </span>
+          </div>
+          </section>
+        </section>
+        <section class="hourly-forecast">
+          <div class="head">
+            <h3>Hourly forecast</h3>
+            <button><p class="selected">Tuesday</p>
+            <img src="assets/images/icon-dropdown.svg" alt="">
+            </button>
+            <div class="week-days">
+              <p>monday</p>
+              <p>tuesday</p>
+              <p>wednesday</p>
+              <p>thursday</p>
+              <p>friday</p>
+              <p>saturday</p>
+              <p>sunday</p>
+            </div>
+          </div>
+          <div class="past-weather">
+            <div>
+              <span>
+                <img src="./assets/images/icon-overcast.webp" alt="">
+                <p>3 pm</p>
+              </span>
+              <p>20&deg;</p>
+            </div>
+            <div>
+              <span>
+                <img src="./assets/images/icon-partly-cloudy.webp" alt="">
+                <p>3 pm</p>
+              </span>
+              <p>20&deg;</p>
+            </div>
+            <div>
+              <span>
+                <img src="./assets/images/icon-sunny.webp" alt="">
+                <p>3 pm</p>
+              </span>
+              <p>20&deg;</p>
+            </div>
+            <div>
+              <span>
+                <img src="./assets/images/icon-overcast.webp" alt="">
+                <p>3 pm</p>
+              </span>
+              <p>20&deg;</p>
+            </div>
+            <div>
+              <span>
+                <img src="./assets/images/icon-snow.webp" alt="">
+                <p>3 pm</p>
+              </span>
+              <p>20&deg;</p>
+            </div>
+            <div>
+              <span>
+                <img src="./assets/images/icon-fog.webp" alt="">
+                <p>3 pm</p>
+              </span>
+              <p>20&deg;</p>
+            </div>
+          <div>
+            <span>
+              <img src="./assets/images/icon-snow.webp" alt="">
+              <p>3 pm</p>
+            </span>
+            <p>20&deg;</p>
+          </div>
+          <div>
+            <span>
+              <img src="./assets/images/icon-overcast.webp" alt="">
+              <p>3 pm</p>
+            </span>
+            <p>20&deg;</p>
+          </div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <div class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a> 
+      Coded by <a href="
+      https://linktr.ee/Dev_Savion">Savion</a>
+    </div>
+  </footer>
+</body>
+</html>

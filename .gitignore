@@ -23,7 +23,6 @@ npm-debug.log*
 
 # Production
 /build
-/dist
 /.next
 /out
 

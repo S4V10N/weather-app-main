@@ -26,6 +26,7 @@ body {
     font-size: 1.8rem;
     font-family: var(--font-one);
     font-weight: 500;
+    transition: all 1s ease-in-out;
     color: var(--white);
     background-color: var(--bg-dark);
 }

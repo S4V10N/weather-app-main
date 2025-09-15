@@ -39,7 +39,7 @@ body {
     top: 100%;
     width: 26rem;
     color: var(--gray);
-    display: none;
+    // display: none;
     right: 0;
     transform: translateY(1.5rem);
 }
@@ -49,8 +49,13 @@ body {
     cursor: pointer;
     margin-bottom: 0.5rem;
     height: 4rem;
+    width: 100%;
+    border: none;
     display: flex;
     align-items: center;
+}
+.bold-text:focus {
+    outline: 2px solid var(--white);
 }
 .bold {
     cursor: pointer;
@@ -68,7 +73,7 @@ body {
 .bold:hover,
 .bold-text:hover {
     background-color: var(--light-grey);
-    border-radius: 0.5rem;
+    border-radius: 1rem;
 }
 .units__filter p {
     padding-left: 1rem;
@@ -91,6 +96,7 @@ hr {
     margin-bottom: 4.5rem;
     max-width: 124rem;
     width: 100%;
+    max-height: 43rem;
     position: relative;
 }
 .app__nav button {
@@ -101,12 +107,15 @@ hr {
     color: var(--white);
     cursor: pointer;
     gap: 1rem;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     padding: 1rem 1.5rem;
     border: none;
 }
 .app__nav button:hover {
     background-color: var(--light-grey);
+}
+.app__nav button:focus {
+    outline: 2px solid var(--white);
 }
 .app__nav button :nth-child(1) {
     width: 2rem;
@@ -141,6 +150,12 @@ fieldset button {
     font-size: 1.8rem;
     color: var(--white);
     border-radius: 1rem;
+}
+fieldset input:focus {
+    border: 2px solid var(--white);
+}
+fieldset button:focus {
+    border: 2px solid var(--blue);
 }
 fieldset button {
     background-color: var(--blue);
@@ -182,6 +197,7 @@ label img {
     border-radius: 1rem;
     display: none;
     font-size: 2rem;
+    z-index: 1;
 }
 .suggestions p {
     height: 4rem;
@@ -338,7 +354,7 @@ h2 {
     background-color: var(--light-grey);
     border-radius: 0.5rem;
 }
-.hourly-forecast  .head{
+.hourly-forecast .head {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -346,7 +362,7 @@ h2 {
     position: relative;
 }
 .hourly-forecast {
-    background-color: var(--grey);
+    background-color: var(--dark-grey);
     max-width: 38rem;
     width: 100%;
     border-radius: 2rem;
@@ -362,7 +378,7 @@ h3 {
     gap: 1.5rem;
     border: none;
     cursor: pointer;
-    background-color: var(--light-grey);
+    background-color: var(--grey);
     color: var(--white);
     font-weight: 600;
     border-radius: 1rem;
@@ -370,6 +386,9 @@ h3 {
 }
 .hourly-forecast .head button:hover {
     background-color: var(--light-grey);
+}
+.hourly-forecast .head button:focus {
+    outline: 2px solid var(--white);
 }
 .hourly-forecast .head img {
     width: 1.5rem;
@@ -400,7 +419,7 @@ main {
     margin-bottom: 5rem;
 }
 .attribution {
-    font-size: 1.6rem;
+    font-size: 1.55rem;
     font-weight: bold;
     align-self: flex-end;
     justify-self: center;

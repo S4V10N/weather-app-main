@@ -39,7 +39,7 @@ body {
     top: 100%;
     width: 26rem;
     color: var(--gray);
-    // display: none;
+    display: none;
     right: 0;
     transform: translateY(1.5rem);
 }
@@ -66,9 +66,6 @@ body {
     justify-content: space-between;
     padding: 0 1rem;
     color: var(--white);
-}
-.bold img {
-    display: none;
 }
 .bold:hover,
 .bold-text:hover {
@@ -330,6 +327,9 @@ h2 {
 .daily-forecast {
     margin-bottom: 4rem;
 }
+.imperial {
+    display: none;
+}
 .week-days {
     background-color: var(--dark-grey);
     padding: 1.5rem;
@@ -348,6 +348,7 @@ h2 {
     display: flex;
     cursor: pointer;
     align-items: center;
+    text-transform: capitalize;
     padding: 0 1rem;
 }
 .week-days p:hover {
@@ -419,7 +420,7 @@ main {
     margin-bottom: 5rem;
 }
 .attribution {
-    font-size: 1.55rem;
+    font-size: 1.5rem;
     font-weight: bold;
     align-self: flex-end;
     justify-self: center;
@@ -438,6 +439,11 @@ main {
 .attribution a:hover,
 .attribution a:active {
     filter: brightness(1.3);
+}
+.units__filter,
+.week-days,
+.suggestions {
+    border: 1px solid var(--light-grey);
 }
 @media (min-width: 1440px) {
     .app {

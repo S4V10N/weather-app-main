@@ -25,29 +25,30 @@
         </button>
 
         <div class="units__filter">
-          <button class="bold-text">Switch to <span class="swap">Imperial</span></button>
+          <button class="bold-text">Switch to <span class="imperial">Metric</span>
+            <span class="metric">Imperial</span></button>
           <p>Temperature</p>
           <p class="bold filter">Celsius (°C) 
-            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="check">
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="metric">
           </p>
           <p class="bold filter">Fahrenheit (°F) 
-            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="check">
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="imperial">
           </p>
           <hr>
           <p>Wind Speed</p>
           <p class="bold filter">km/h
-            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="check">
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="metric">
           </p>
           <p class="bold filter">mph
-            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="check">
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="imperial">
           </p>
           <hr>
           <p>Precipitation</p>
           <p class="bold filter">Millimeters (mm)
-            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="check">
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="metric">
           </p>
           <p class="bold filter">Inches (in)
-            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="check">
+            <img src="./assets/images/icon-checkmark.svg" alt="checkmark" class="imperial">
           </p>
         </div>
       </section>
@@ -62,10 +63,10 @@
             </label>
 
             <div class="suggestions">
-              <p>city</p>
-              <p>city</p>
-              <p>city</p>
-              <p>city</p>
+              <p></p>
+              <p></p>
+              <p></p>
+              <p></p>
             </div>
             <button type="submit" id="searchBtn">Search</button>
           </fieldset>
@@ -96,11 +97,11 @@
           </div>
           <div>
             <p>Wind</p>
-            <span class="wind">14 km/h</span>
+            <span class="wind">14 <span class="metric">km/h</span><span class="imperial">mph</span></span>
           </div>
           <div>
             <p>Precipitation</p>
-            <span class="precipitate">0 mm</span>
+            <span class="precipitate">0 <span class="metric">mm</span><span class="imperial">in</span></span>
           </div>
         </section>
         <section class="daily-forecast">
@@ -171,13 +172,13 @@
             <img src="assets/images/icon-dropdown.svg" alt="">
             </button>
             <div class="week-days">
-              <p>monday</p>
-              <p>tuesday</p>
-              <p>wednesday</p>
-              <p>thursday</p>
-              <p>friday</p>
-              <p>saturday</p>
-              <p>sunday</p>
+              <p class="weekDays">Monday</p>
+              <p class="weekDays">Tuesday</p>
+              <p class="weekDays">Wednesday</p>
+              <p class="weekDays">Thursday</p>
+              <p class="weekDays">Friday</p>
+              <p class="weekDays">Saturday</p>
+              <p class="weekDays">Sunday</p>
             </div>
           </div>
           <div class="past-weather">

@@ -14,9 +14,9 @@ const imperialUnit = document.querySelectorAll(".imperial");
 const unitsSwap = document.querySelector(".bold-text");
 const metricUnitArray = Array.from(metricUnit);
 const imperialUnitArray = Array.from(imperialUnit);
+const suggestedCities = document.querySelectorAll(".suggestions p");
+const suggestions = Array.from(suggestedCities);
 
-console.log(imperialUnitArray)
-console.log(metricUnitArray)
 function swap(one) {
     if(one.style.display === "none" || one.style.display === "") {
         one.style.display = "block";
@@ -29,7 +29,9 @@ function swap(one) {
 units.addEventListener("click", () => swap(unitsDropdown));
 daysBtn.addEventListener("click", () => swap(daysBtnDropdown));
 searchBar.addEventListener("click", () => swap(searchBarDropdown));
-
+searchBtn.addEventListener("click", () => {
+    event.preventDefault();
+})
 unitsSwap.addEventListener("click", () => {
     for (let i = 0; i < metricUnitArray.length; i++) {
         if (metricUnitArray[i].style.display === "block" || metricUnitArray[i].style.display === "" || metricUnitArray[i].style.display === "inline-block") {
@@ -54,3 +56,5 @@ weekDaysArray.forEach((dayElement, index) => {
         daysBtn.textContent = selected.textContent;
     });
 });
+
+// API calls

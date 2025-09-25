@@ -426,13 +426,10 @@ main {
 .attribution {
     font-size: 1.5rem;
     font-weight: bold;
-    align-self: center;
-    justify-self: center;
-    display: flex;
-    align-items: center;
     margin-bottom: 2rem;
     gap: 0.5rem;
     color: var(--white);
+    text-align: center;
 }
 .attribution a { 
     text-decoration: none;

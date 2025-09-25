@@ -1,4 +1,3 @@
-console.log("js is working");
 const units = document.querySelector("#units");
 const searchBar = document.querySelector("#searchBar");
 const searchBtn = document.querySelector("#searchBtn");
@@ -16,6 +15,16 @@ const metricUnitArray = Array.from(metricUnit);
 const imperialUnitArray = Array.from(imperialUnit);
 const suggestedCities = document.querySelectorAll(".suggestions p");
 const suggestions = Array.from(suggestedCities);
+const loading = document.querySelectorAll(".load-state");
+const loadState = Array.from(loading);
+const loadingT = document.querySelectorAll(".load-text");
+const loadingText = Array.from(loadingT);
+const loadingAnimation = document.querySelector("#load-state-animation");
+const noResultText = document.querySelector(".noResult");
+const noResult = document.querySelector(".app__dashboard");
+
+
+
 
 function swap(one) {
     if(one.style.display === "none" || one.style.display === "") {
@@ -53,8 +62,64 @@ unitsSwap.addEventListener("click", () => {
 weekDaysArray.forEach((dayElement, index) => {
     dayElement.addEventListener("click", () => {
         let selected = weekDaysArray[index];
-        daysBtn.textContent = selected.textContent;
+            daysBtn.innerHTML = selected.textContent;
     });
 });
 
-// API calls
+// states
+function preLoader() {
+    for(let i = 0; i <= loadState.length; i++) {
+        loadingText[i].innerHTML = "&mdash;";
+        loadingAnimation.style.zIndex = "4";
+        daysBtn.innerHTML = "&mdash;";
+        loadState[i].classList.add("loadingState");
+    };
+}
+
+function noResultErr() {
+    noResult.classList.add("app-Error");
+    noResultText.style.display = "flex";
+}
+
+// API call
+async function getWeather() {
+  preLoader();
+
+  try {
+    const location = searchBar.value; 
+
+
+    const geoResponse = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1`);
+    const geoData = await geoResponse.json();
+
+    if (!geoData.results || geoData.results.length === 0) {
+      noResult();
+      return;
+    }
+
+    const { latitude, longitude, name, country } = geoData.results[0];
+
+
+    const response = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,relative_humidity_2m,wind_speed_10m`
+    );
+
+    const data = await response.json();
+
+    if (!data || Object.keys(data).length === 0) {
+      noResult();
+    } else {
+      console.log("✅ Weather Data:", data);
+
+      console.log(`Location: ${name}, ${country}`);
+      console.log(`Temperature: ${data.current.temperature_2m}°C`);
+      console.log(`Humidity: ${data.current.relative_humidity_2m}%`);
+    }
+
+  } catch (error) {
+    console.error("❌ Error:", error);
+    noResultErr();
+  }
+}
+
+searchBtn.addEventListener("click", getWeather);

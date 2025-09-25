@@ -85,23 +85,32 @@
             </div>
             <p class="temp-deg">20&deg;</p>
           </div>
+          <div class="loading load-state" id="load-state-animation">
+            <div class="balls">
+              <div class="ball-1"></div>
+              <div class="ball-2"></div>
+              <div class="ball-3"></div>
+            </div>
+            <p>Loading...</p>
+          </div>
+          <div class="city-loading load-state"></div>
         </section>
         <section class="weather-stats">
           <div>
             <p>Feels like</p>
-            <span class="temperature">18&deg;</span>
+            <span class="temperature load-text">18&deg;</span>
           </div>
           <div>
             <p>Humidity</p>
-            <span class="humidity">46%</span>
+            <span class="humidity load-text">46%</span>
           </div>
           <div>
             <p>Wind</p>
-            <span class="wind">14 <span class="metric">km/h</span><span class="imperial">mph</span></span>
+            <span class="wind load-text">14 <span class="metric">km/h</span><span class="imperial">mph</span></span>
           </div>
           <div>
             <p>Precipitation</p>
-            <span class="precipitate">0 <span class="metric">mm</span><span class="imperial">in</span></span>
+            <span class="precipitate load-text">0 <span class="metric">mm</span><span class="imperial">in</span></span>
           </div>
         </section>
         <section class="daily-forecast">
@@ -164,11 +173,20 @@
             </span>
           </div>
           </section>
+          <div class="days-loading load-state">
+            <div class="days-after"></div>
+            <div class="days-after"></div>
+            <div class="days-after"></div>
+            <div class="days-after"></div>
+            <div class="days-after"></div>
+            <div class="days-after"></div>
+            <div class="days-after"></div>
+          </div>
         </section>
         <section class="hourly-forecast">
           <div class="head">
             <h3>Hourly forecast</h3>
-            <button><p class="selected">Tuesday</p>
+            <button><p class="selected load-text">Tuesday</p>
             <img src="assets/images/icon-dropdown.svg" alt="">
             </button>
             <div class="week-days">
@@ -181,6 +199,7 @@
               <p class="weekDays">Sunday</p>
             </div>
           </div>
+          <div class="past">
           <div class="past-weather">
             <div>
               <span>
@@ -239,8 +258,20 @@
             <p>20&deg;</p>
           </div>
           </div>
+          <div class="past-loading load-state">
+            <div class="past-div"></div>
+            <div class="past-div"></div>
+            <div class="past-div"></div>
+            <div class="past-div"></div>
+            <div class="past-div"></div>
+            <div class="past-div"></div>
+            <div class="past-div"></div>
+            <div class="past-div"></div>
+          </div>
+          </div>
         </section>
       </section>
+      <h2 class="noResult ">No search result found!</h2>
     </section>
   </main>
 

@@ -38,9 +38,6 @@ function swap(one) {
 units.addEventListener("click", () => swap(unitsDropdown));
 daysBtn.addEventListener("click", () => swap(daysBtnDropdown));
 searchBar.addEventListener("click", () => swap(searchBarDropdown));
-searchBtn.addEventListener("click", () => {
-    event.preventDefault();
-})
 unitsSwap.addEventListener("click", () => {
     for (let i = 0; i < metricUnitArray.length; i++) {
         if (metricUnitArray[i].style.display === "block" || metricUnitArray[i].style.display === "" || metricUnitArray[i].style.display === "inline-block") {
@@ -86,10 +83,16 @@ async function getWeather() {
   preLoader();
 
   try {
-    const location = searchBar.value; 
+    const location = searchBar.value.trim();
 
+    if (!location) {
+      noResult();
+      return;
+    }
 
-    const geoResponse = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1`);
+    // Step 1: Geocoding
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1`;
+    const geoResponse = await fetch(geoUrl);
     const geoData = await geoResponse.json();
 
     if (!geoData.results || geoData.results.length === 0) {
@@ -99,27 +102,45 @@ async function getWeather() {
 
     const { latitude, longitude, name, country } = geoData.results[0];
 
-
-    const response = await fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation,relative_humidity_2m,wind_speed_10m`
-    );
-
+    // Step 2: Forecast
+    const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m&timezone=auto`;
+    const response = await fetch(forecastUrl);
     const data = await response.json();
 
-    if (!data || Object.keys(data).length === 0) {
+    if (!data || !data.daily) {
       noResult();
-    } else {
-      console.log("✅ Weather Data:", data);
-
-      console.log(`Location: ${name}, ${country}`);
-      console.log(`Temperature: ${data.current.temperature_2m}°C`);
-      console.log(`Humidity: ${data.current.relative_humidity_2m}%`);
+      return;
     }
 
+    // Step 3: Build results text
+    let resultText = `📍 Location: ${name}, ${country}\n`;
+    resultText += `🌡️ Current Temp: ${data.current.temperature_2m}°C\n`;
+    resultText += `💧 Humidity: ${data.current.relative_humidity_2m}%\n`;
+    resultText += `🌧️ Precipitation: ${data.current.precipitation}mm\n`;
+    resultText += `💨 Wind Speed: ${data.current.wind_speed_10m} km/h\n\n`;
+
+    resultText += "📅 Daily Forecast:\n";
+    data.daily.time.forEach((day, i) => {
+      resultText += `${day}: Max ${data.daily.temperature_2m_max[i]}°C / Min ${data.daily.temperature_2m_min[i]}°C\n`;
+    });
+
+    // Step 4: Show alert
+    alert(resultText);
+
   } catch (error) {
-    console.error("❌ Error:", error);
+    console.error("❌ Error fetching weather:", error);
     noResultErr();
   }
 }
 
-searchBtn.addEventListener("click", getWeather);
+searchBtn.addEventListener("click", () => {
+    event.preventDefault();
+    searchBarDropdown.style.display = "none";
+    if (searchBar.value === ""|| searchBar.value.length === 0) {
+        searchBar.value = "Please enter a valid city";
+    } else {
+        if (searchBar.value !== "Please enter a valid city"){
+            getWeather();
+        }
+    }
+});

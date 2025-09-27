@@ -246,11 +246,13 @@ label img {
     align-items: center;
     gap: 4rem;
 }
-.weather p {
+.weather p,
+.weather p span {
     font-size: 10rem;
     font-family: var(--font-two);
     font-style: italic;
     margin: 0;
+    color: var(--white);
 }
 .weather-icon img {
     width: 100%;
@@ -414,6 +416,9 @@ h3 {
     gap: 1rem;
     font-size: 2.5rem;
 }
+#location {
+    text-wrap: wrap;
+}
 .past-weather,
 .past-loading {
     gap: 1.5rem;
@@ -528,7 +533,9 @@ main {
 .suggestions {
     border: 1px solid var(--light-grey);
 }
-
+.days div span p {
+    display: flex;
+}
 //loading state
 .loading,
 .city-loading,

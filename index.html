@@ -83,7 +83,7 @@
             <div class="weather-icon">
               <img src="/assets/images/icon-sunny.webp" alt="current-weather">
             </div>
-            <p class="temp-deg">20&deg;</p>
+            <p class="temp-deg"><span class="temp-current">20</span>&deg;</p>
           </div>
           <div class="loading load-state" id="load-state-animation">
             <div class="balls">
@@ -98,7 +98,7 @@
         <section class="weather-stats">
           <div>
             <p>Feels like</p>
-            <span class="temperature load-text">18&deg;</span>
+            <span class="temperature load-text"><span class="temp_">18</span>&deg;</span>
           </div>
           <div>
             <p>Humidity</p>
@@ -106,70 +106,70 @@
           </div>
           <div>
             <p>Wind</p>
-            <span class="wind load-text">14 <span class="metric">km/h</span><span class="imperial">mph</span></span>
+            <span class="wind load-text"><span class="wind-speed">14</span><span class="metric">km/h</span><span class="imperial">mph</span></span>
           </div>
           <div>
             <p>Precipitation</p>
-            <span class="precipitate load-text">0 <span class="metric">mm</span><span class="imperial">in</span></span>
+            <span class="precipitate load-text"><span id="precipitate">0</span><span class="metric">mm</span><span class="imperial">in</span></span>
           </div>
         </section>
         <section class="daily-forecast">
           <h2>Daily forecast</h2>
           <section class="days">
             <div>
-            <p class="bold">Tue</p>
+            <p class="bold dayWeek">Tue</p>
             <img src=".//assets/images/icon-rain.webp" alt="">
             <span>
-              <p>20&deg;</p>
-              <p>18&deg;</p>
+              <p><span class="temp-max">20</span>&deg;</p>
+              <p><span class="temp-min">14</span>&deg;</p>
             </span>
           </div>
           <div>
-            <p class="bold">Wed</p>
+            <p class="bold dayWeek">Wed</p>
             <img src=".//assets/images/icon-drizzle.webp" alt="">
             <span>
-              <p>21&deg;</p>
-              <p>43&deg;</p>
+              <p><span class="temp-max">21</span>&deg;</p>
+              <p><span class="temp-min">15</span>&deg;</p>
             </span>
           </div>
           <div>
-            <p class="bold">Thu</p>
+            <p class="bold dayWeek">Thu</p>
             <img src=".//assets/images/icon-sunny.webp" alt="">
             <span>
-              <p>32&deg;</p>
-              <p>21&deg;</p>
+              <p><span class="temp-max">24</span>&deg;</p>
+              <p><span class="temp-min">14</span>&deg;</p>
             </span>
           </div>
           <div>
-            <p class="bold">Fri</p>
+            <p class="bold dayWeek">Fri</p>
             <img src=".//assets/images/icon-partly-cloudy.webp" alt="">
             <span>
-              <p>32&deg;</p>
-              <p>21&deg;</p>
+              <p><span class="temp-max">25</span>&deg;</p>
+              <p><span class="temp-min">13</span>&deg;</p>
             </span>
           </div>
           <div>
-            <p class="bold">Sat</p>
+            <p class="bold dayWeek">Sat</p>
             <img src=".//assets/images/icon-storm.webp" alt="">
             <span>
-              <p>12&deg;</p>
-              <p>43&deg;</p>
+              <p><span class="temp-max">21</span>&deg;</p>
+              <p><span class="temp-min">15</span>&deg;</p>
             </span>
           </div>
           <div>
-            <p class="bold">Sun</p>
+            <p class="bold dayWeek">Sun</p>
             <img src=".//assets/images/icon-snow.webp" alt="">
             <span>
-              <p>30&deg;</p>
-              <p>21&deg;</p>
+              <p><span class="temp-max">25</span>&deg;</p>
+              <p><span class="temp-min">16</span>&deg;</p>
             </span>
           </div>
           <div>
-            <p class="bold">Mon</p>
+            <p class="bold dayWeek">Mon</p>
             <img src=".//assets/images/icon-fog.webp" alt="">
             <span>
-              <p>32&deg;</p>
-              <p>22&deg;</p>
+              <p><span class="temp-max">24</span>&deg;</p>
+              <p><span class="temp-min">15</span>&deg;</p>
             </span>
           </div>
           </section>
@@ -211,49 +211,49 @@
             <div>
               <span>
                 <img src="./assets/images/icon-partly-cloudy.webp" alt="">
-                <p>3 pm</p>
+                <p>4 pm</p>
               </span>
               <p>20&deg;</p>
             </div>
             <div>
               <span>
                 <img src="./assets/images/icon-sunny.webp" alt="">
-                <p>3 pm</p>
+                <p>5 pm</p>
               </span>
-              <p>20&deg;</p>
+              <p>19&deg;</p>
             </div>
             <div>
               <span>
                 <img src="./assets/images/icon-overcast.webp" alt="">
-                <p>3 pm</p>
+                <p>6 pm</p>
               </span>
-              <p>20&deg;</p>
+              <p>18&deg;</p>
             </div>
             <div>
               <span>
                 <img src="./assets/images/icon-snow.webp" alt="">
-                <p>3 pm</p>
+                <p>7 pm</p>
               </span>
-              <p>20&deg;</p>
+              <p>18&deg;</p>
             </div>
             <div>
               <span>
                 <img src="./assets/images/icon-fog.webp" alt="">
-                <p>3 pm</p>
+                <p>8 pm</p>
               </span>
-              <p>20&deg;</p>
+              <p>17&deg;</p>
             </div>
           <div>
             <span>
               <img src="./assets/images/icon-snow.webp" alt="">
-              <p>3 pm</p>
+              <p>9 pm</p>
             </span>
-            <p>20&deg;</p>
+            <p>17&deg;</p>
           </div>
           <div>
             <span>
               <img src="./assets/images/icon-overcast.webp" alt="">
-              <p>3 pm</p>
+              <p>10 pm</p>
             </span>
             <p>20&deg;</p>
           </div>

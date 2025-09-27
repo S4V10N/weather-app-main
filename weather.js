@@ -13,8 +13,6 @@ const imperialUnit = document.querySelectorAll(".imperial");
 const unitsSwap = document.querySelector(".bold-text");
 const metricUnitArray = Array.from(metricUnit);
 const imperialUnitArray = Array.from(imperialUnit);
-const suggestedCities = document.querySelectorAll(".suggestions p");
-const suggestions = Array.from(suggestedCities);
 const loading = document.querySelectorAll(".load-state");
 const loadState = Array.from(loading);
 const loadingT = document.querySelectorAll(".load-text");
@@ -22,8 +20,22 @@ const loadingText = Array.from(loadingT);
 const loadingAnimation = document.querySelector("#load-state-animation");
 const noResultText = document.querySelector(".noResult");
 const noResult = document.querySelector(".app__dashboard");
-
-
+const tempMax = document.querySelectorAll(".temp-max");
+const tempMin = document.querySelectorAll(".temp-min");
+const temp_min = Array.from(tempMin);
+const temp_max = Array.from(tempMax);
+const cityLocation = document.querySelector("#location");
+const date = document.querySelector("#date");
+const currentTemp = document.querySelector(".temp-current");
+const humidity = document.querySelector(".humidity");
+const feelsTemp = document.querySelector(".temp_");
+const precipitate = document.querySelector("#precipitate");
+const windSpeed = document.querySelector(".wind-speed");
+const suggestedCities = document.querySelectorAll(".suggestions p");
+const suggestedCitiesContainer = document.querySelector(".suggestions");
+const suggestions = Array.from(suggestedCities);
+const dayWeek = document.querySelectorAll(".dayWeek");
+const day_week = Array.from(dayWeek);
 
 
 function swap(one) {
@@ -37,7 +49,10 @@ function swap(one) {
 // drop-down buttons
 units.addEventListener("click", () => swap(unitsDropdown));
 daysBtn.addEventListener("click", () => swap(daysBtnDropdown));
-searchBar.addEventListener("click", () => swap(searchBarDropdown));
+searchBar.addEventListener("click", () => {
+    swap(searchBarDropdown)
+    searchBar.value = "";
+});
 unitsSwap.addEventListener("click", () => {
     for (let i = 0; i < metricUnitArray.length; i++) {
         if (metricUnitArray[i].style.display === "block" || metricUnitArray[i].style.display === "" || metricUnitArray[i].style.display === "inline-block") {
@@ -55,7 +70,6 @@ unitsSwap.addEventListener("click", () => {
     }
 })
 
-
 weekDaysArray.forEach((dayElement, index) => {
     dayElement.addEventListener("click", () => {
         let selected = weekDaysArray[index];
@@ -65,82 +79,180 @@ weekDaysArray.forEach((dayElement, index) => {
 
 // states
 function preLoader() {
-    for(let i = 0; i <= loadState.length; i++) {
+    for(let i = 0; i < loadState.length; i++) {
         loadingText[i].innerHTML = "&mdash;";
         loadingAnimation.style.zIndex = "4";
         daysBtn.innerHTML = "&mdash;";
         loadState[i].classList.add("loadingState");
     };
+};
+
+function stopLoader() {
+    loadingAnimation.style.zIndex = "-1";
+    for (let i = 0; i < loadState.length; i++) {
+        loadState[i].classList.remove("loadingState");
+    }
 }
 
 function noResultErr() {
     noResult.classList.add("app-Error");
     noResultText.style.display = "flex";
-}
+};
 
 // API call
-async function getWeather() {
-  preLoader();
-
-  try {
-    const location = searchBar.value.trim();
-
-    if (!location) {
-      noResult();
-      return;
+async function getLocation(location) {
+    const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${location}&count=1&language=en&format=json`);
+    const data = await res.json();
+    const result = data.results[0];
+    return {
+        name: result.name || "",
+        country: result.country || "",
+        lat: result.latitude,
+        lon: result.longitude
     }
+}
 
-    // Step 1: Geocoding
-    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(location)}&count=1`;
-    const geoResponse = await fetch(geoUrl);
-    const geoData = await geoResponse.json();
+async function getWeather(location) {
+  const { lat, lon, name } = await getLocation(location);
+  const res = await fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,is_day,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min`
+  );
+  const data = await res.json();
 
-    if (!geoData.results || geoData.results.length === 0) {
-      noResult();
-      return;
-    }
+  console.log("🌦 Raw weather API response:", data);
 
-    const { latitude, longitude, name, country } = geoData.results[0];
+  const weatherData = {
+    name,
+    current: data.current,
+    daily: data.daily,
+  };
 
-    // Step 2: Forecast
-    const forecastUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m&timezone=auto`;
-    const response = await fetch(forecastUrl);
-    const data = await response.json();
+  console.log("✅ Parsed weather:", weatherData);
+  return weatherData;
+}
 
-    if (!data || !data.daily) {
-      noResult();
-      return;
-    }
+async function getSuggestions(query) {
+  if (!query) {
+    suggestedCities.innerHTML = "";
+    return;
+  }
 
-    // Step 3: Build results text
-    let resultText = `📍 Location: ${name}, ${country}\n`;
-    resultText += `🌡️ Current Temp: ${data.current.temperature_2m}°C\n`;
-    resultText += `💧 Humidity: ${data.current.relative_humidity_2m}%\n`;
-    resultText += `🌧️ Precipitation: ${data.current.precipitation}mm\n`;
-    resultText += `💨 Wind Speed: ${data.current.wind_speed_10m} km/h\n\n`;
+  const res = await fetch(
+    `https://geocoding-api.open-meteo.com/v1/search?name=${query}&count=4&language=en&format=json`
+  );
+  const data = await res.json();
 
-    resultText += "📅 Daily Forecast:\n";
-    data.daily.time.forEach((day, i) => {
-      resultText += `${day}: Max ${data.daily.temperature_2m_max[i]}°C / Min ${data.daily.temperature_2m_min[i]}°C\n`;
+  suggestedCities.innerHTML = "";
+
+  if (data.results) {
+    data.results.forEach((city) => {
+      const p = document.createElement("p");
+      p.textContent = `${city.name}, ${city.country}`;
+      p.addEventListener("click", () => {
+        locationInput.value = city.name;
+        suggestedCities.innerHTML = "";
+        searchBtn.click(); // trigger search
+      });
+      suggestedCities.appendChild(p);
     });
-
-    // Step 4: Show alert
-    alert(resultText);
-
-  } catch (error) {
-    console.error("❌ Error fetching weather:", error);
-    noResultErr();
   }
 }
 
-searchBtn.addEventListener("click", () => {
-    event.preventDefault();
-    searchBarDropdown.style.display = "none";
-    if (searchBar.value === ""|| searchBar.value.length === 0) {
-        searchBar.value = "Please enter a valid city";
-    } else {
-        if (searchBar.value !== "Please enter a valid city"){
-            getWeather();
+searchBtn.addEventListener("click", async (e) => {
+    e.preventDefault();
+    suggestedCitiesContainer.style.display = "none";
+
+    const location = searchBar.value.trim();
+
+    if (!location) {
+        searchBar.innerHTML = "Please enter a location";
+        return;
+    }
+
+    preLoader();
+
+    try {
+        // ✅ Call your geocoding + weather API
+        const weather = await getWeather(location);
+
+        if (!weather || !weather.daily || !weather.daily.temperature_2m_max) {
+            noResultErr();
+            stopLoader();
+            return;
         }
+
+        console.log("✅ Full Weather Data:", weather);
+
+        // ====== Current weather ======
+        // These should come from geocoding (weather.location or similar)
+        let city = weather.city || location; 
+        let country = weather.country || ""; // fallback if missing
+
+        let current = String(Math.round(weather.current.temperature_2m));
+        let humid = String(weather.current.relative_humidity_2m) + "%";
+        let wind = String(Math.round(weather.current.wind_speed_10m));
+        let feels = String(Math.round(weather.current.apparent_temperature));
+        let today = new Date().toDateString();
+
+        // Plug into DOM
+        cityLocation.innerHTML = `${city}, ${country}`;
+        currentTemp.innerHTML = current;
+        humidity.innerHTML = humid;
+        windSpeed.textContent = wind;
+        feelsTemp.innerHTML = feels; // ✅ no ".value"
+        date.innerHTML = today;
+
+        // ====== Daily forecast (7 days) ======
+        const { temperature_2m_max, temperature_2m_min, time } = weather.daily;
+
+        for (let i = 0; i < 7; i++) {
+            let weekday = new Date(time[i]).toLocaleDateString('en-US', { weekday: 'short' });
+            day_week[i].innerHTML = weekday;
+
+            let maxTemp = String(Math.round(temperature_2m_max[i]));
+            let minTemp = String(Math.round(temperature_2m_min[i]));
+            let dayDate = new Date(time[i]).toDateString();
+
+            if (temp_max[i]) temp_max[i].textContent = maxTemp;
+            if (temp_min[i]) temp_min[i].textContent = minTemp;
+
+            console.log(`📅 ${dayDate}: Min = ${minTemp}, Max = ${maxTemp}`);
+        }
+
+        // ====== Hourly forecast (next 8 hours from now) ======
+        // ====== Hourly forecast (next 8 hours from now) ======
+if (weather.hourly && weather.hourly.temperature_2m) {
+    const { temperature_2m, time: hourlyTime } = weather.hourly;
+
+    // find index of current hour
+    let now = new Date();
+    let currentHourISO = now.toISOString().slice(0, 13); // e.g., "2025-09-27T22"
+    let startIndex = hourlyTime.findIndex(t => t.startsWith(currentHourISO));
+
+    if (startIndex !== -1) {
+        for (let i = 0; i < 8; i++) {
+            let hourIndex = startIndex + i;
+            if (hourIndex >= hourlyTime.length) break;
+
+            let hourLabel = new Date(hourlyTime[hourIndex]).toLocaleTimeString('en-US', { hour: 'numeric' });
+            let hourTemp = String(Math.round(temperature_2m[hourIndex])); // ✅ only max for that hour
+
+            console.log(`🕑 ${hourLabel}: ${hourTemp}`);
+
+            // If you have DOM nodes like hourly_time[i], hourly_temp[i]
+            if (hourly_time[i]) hourly_time[i].textContent = hourLabel;
+            if (hourly_temp[i]) hourly_temp[i].textContent = hourTemp;
+            console.log(hourly_time[i], hourly_temp[i]);
+        }
+    }
+}
+        
+
+        stopLoader();
+
+    } catch (error) {
+        console.error("❌ Error fetching weather:", error);
+        noResultErr();
+        stopLoader();
     }
 });

@@ -366,6 +366,9 @@ h2 {
     margin-bottom: 1.5rem;
     position: relative;
 }
+.past-weather div p {
+    display: flex;
+}
 .hourly-forecast {
     background-color: var(--dark-grey);
     max-width: 38rem;
@@ -418,6 +421,7 @@ h3 {
 }
 #location {
     text-wrap: wrap;
+    max-width: 29.9rem;
 }
 .past-weather,
 .past-loading {
@@ -655,5 +659,8 @@ main {
     .loading p {
         font-size: 1.9rem;
         margin: 0;
+    }
+    #location {
+        max-width: 100%;
     }
 }

@@ -57,7 +57,7 @@
         <form action="" id="search">
           <h1>How's the sky looking today?</h1>
           <fieldset>
-            <input type="text" name="search" id="searchBar" placeholder="Search for a place..." required>
+            <input type="text" name="search" id="searchBar" placeholder="Search for a place..." required autocomplete="off">
             <label for="search">
               <img src="/assets/images/icon-search.svg" alt="search-icon">
             </label>
@@ -81,7 +81,7 @@
           </div>
           <div class="weather">
             <div class="weather-icon">
-              <img src="/assets/images/icon-sunny.webp" alt="current-weather">
+              <img src="/assets/images/icon-sunny.webp" alt="current-weather" class="city-icon">
             </div>
             <p class="temp-deg"><span class="temp-current">20</span>&deg;</p>
           </div>
@@ -118,7 +118,7 @@
           <section class="days">
             <div>
             <p class="bold dayWeek">Tue</p>
-            <img src=".//assets/images/icon-rain.webp" alt="">
+            <img class="day-weather-icon" src=".//assets/images/icon-rain.webp" alt="">
             <span>
               <p><span class="temp-max">20</span>&deg;</p>
               <p><span class="temp-min">14</span>&deg;</p>
@@ -126,7 +126,7 @@
           </div>
           <div>
             <p class="bold dayWeek">Wed</p>
-            <img src=".//assets/images/icon-drizzle.webp" alt="">
+            <img class="day-weather-icon" src=".//assets/images/icon-drizzle.webp" alt="">
             <span>
               <p><span class="temp-max">21</span>&deg;</p>
               <p><span class="temp-min">15</span>&deg;</p>
@@ -134,7 +134,7 @@
           </div>
           <div>
             <p class="bold dayWeek">Thu</p>
-            <img src=".//assets/images/icon-sunny.webp" alt="">
+            <img class="day-weather-icon" src=".//assets/images/icon-sunny.webp" alt="">
             <span>
               <p><span class="temp-max">24</span>&deg;</p>
               <p><span class="temp-min">14</span>&deg;</p>
@@ -142,7 +142,7 @@
           </div>
           <div>
             <p class="bold dayWeek">Fri</p>
-            <img src=".//assets/images/icon-partly-cloudy.webp" alt="">
+            <img class="day-weather-icon" src=".//assets/images/icon-partly-cloudy.webp" alt="">
             <span>
               <p><span class="temp-max">25</span>&deg;</p>
               <p><span class="temp-min">13</span>&deg;</p>
@@ -150,7 +150,7 @@
           </div>
           <div>
             <p class="bold dayWeek">Sat</p>
-            <img src=".//assets/images/icon-storm.webp" alt="">
+            <img class="day-weather-icon" src=".//assets/images/icon-storm.webp" alt="">
             <span>
               <p><span class="temp-max">21</span>&deg;</p>
               <p><span class="temp-min">15</span>&deg;</p>
@@ -158,7 +158,7 @@
           </div>
           <div>
             <p class="bold dayWeek">Sun</p>
-            <img src=".//assets/images/icon-snow.webp" alt="">
+            <img class="day-weather-icon" src=".//assets/images/icon-snow.webp" alt="">
             <span>
               <p><span class="temp-max">25</span>&deg;</p>
               <p><span class="temp-min">16</span>&deg;</p>
@@ -166,7 +166,7 @@
           </div>
           <div>
             <p class="bold dayWeek">Mon</p>
-            <img src=".//assets/images/icon-fog.webp" alt="">
+            <img class="day-weather-icon" src=".//assets/images/icon-fog.webp" alt="">
             <span>
               <p><span class="temp-max">24</span>&deg;</p>
               <p><span class="temp-min">15</span>&deg;</p>
@@ -186,7 +186,7 @@
         <section class="hourly-forecast">
           <div class="head">
             <h3>Hourly forecast</h3>
-            <button><p class="selected load-text">Tuesday</p>
+            <button class="selected"><p class="load-text">Tuesday</p>
             <img src="assets/images/icon-dropdown.svg" alt="">
             </button>
             <div class="week-days">
@@ -203,59 +203,59 @@
           <div class="past-weather">
             <div>
               <span>
-                <img src="./assets/images/icon-overcast.webp" alt="">
-                <p>3 pm</p>
+                <img class="weather-icon" src="./assets/images/icon-overcast.webp" alt="">
+                <p class="hours-weather">3 pm</p>
               </span>
-              <p>20&deg;</p>
+              <p> <span class="hour-temp">20</span>&deg;</p>
             </div>
             <div>
               <span>
-                <img src="./assets/images/icon-partly-cloudy.webp" alt="">
-                <p>4 pm</p>
+                <img class="weather-icon" src="./assets/images/icon-partly-cloudy.webp" alt="">
+                <p class="hours-weather">4 pm</p>
               </span>
-              <p>20&deg;</p>
+              <p> <span class="hour-temp">20</span>&deg;</p>
             </div>
             <div>
               <span>
-                <img src="./assets/images/icon-sunny.webp" alt="">
-                <p>5 pm</p>
+                <img class="weather-icon" src="./assets/images/icon-sunny.webp" alt="">
+                <p class="hours-weather">5 pm</p>
               </span>
-              <p>19&deg;</p>
+              <p> <span class="hour-temp">19</span>&deg;</p>
             </div>
             <div>
               <span>
-                <img src="./assets/images/icon-overcast.webp" alt="">
-                <p>6 pm</p>
+                <img class="weather-icon" src="./assets/images/icon-overcast.webp" alt="">
+                <p class="hours-weather">6 pm</p>
               </span>
-              <p>18&deg;</p>
+              <p> <span class="hour-temp">18</span>&deg;</p>
             </div>
             <div>
               <span>
-                <img src="./assets/images/icon-snow.webp" alt="">
-                <p>7 pm</p>
+                <img class="weather-icon" src="./assets/images/icon-snow.webp" alt="">
+                <p class="hours-weather">7 pm</p>
               </span>
-              <p>18&deg;</p>
+              <p> <span class="hour-temp">18</span>&deg;</p>
             </div>
             <div>
               <span>
-                <img src="./assets/images/icon-fog.webp" alt="">
-                <p>8 pm</p>
+                <img class="weather-icon" src="./assets/images/icon-fog.webp" alt="">
+                <p class="hours-weather">8 pm</p>
               </span>
-              <p>17&deg;</p>
+              <p> <span class="hour-temp">17</span>&deg;</p>
             </div>
           <div>
             <span>
-              <img src="./assets/images/icon-snow.webp" alt="">
-              <p>9 pm</p>
+              <img class="weather-icon" src="./assets/images/icon-snow.webp" alt="">
+              <p class="hours-weather">9 pm</p>
             </span>
-            <p>17&deg;</p>
+            <p> <span class="hour-temp">17</span>&deg;</p>
           </div>
           <div>
             <span>
-              <img src="./assets/images/icon-overcast.webp" alt="">
-              <p>10 pm</p>
+              <img class="weather-icon" src="./assets/images/icon-overcast.webp" alt="">
+              <p class="hours-weather">10 pm</p>
             </span>
-            <p>20&deg;</p>
+            <p> <span class="hour-temp">20</span>&deg;</p>
           </div>
           </div>
           <div class="past-loading load-state">

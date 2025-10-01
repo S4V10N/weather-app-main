@@ -54,26 +54,93 @@ function swap(one) {
         one.style.display = "none"
     }
 }
-
-// drop-down buttons
-units.addEventListener("click", () => swap(unitsDropdown));
-daysBtn.addEventListener("click", () => swap(daysBtnDropdown));
-unitsSwap.addEventListener("click", () => {
-    for (let i = 0; i < metricUnitArray.length; i++) {
-        if (metricUnitArray[i].style.display === "block" || metricUnitArray[i].style.display === "" || metricUnitArray[i].style.display === "inline-block") {
-            metricUnitArray[i].style.display = "none";
-        } else {
-            metricUnitArray[i].style.display = "inline-block";
-        }
-    };
-    for (let i = 0; i < imperialUnitArray.length; i++) {
-        if (imperialUnitArray[i].style.display === "none" || imperialUnitArray[i].style.display === ""){
-            imperialUnitArray[i].style.display = "inline-block";
-        } else {
-            imperialUnitArray[i].style.display = "none";
-        }
+function closeDropdown (one, two) {
+    document.addEventListener("click", (e) => {
+    if (!one.contains(e.target) && !two.contains(e.target)) {
+        two.style.display = "none";
     }
 })
+};
+
+// drop-down buttons
+units.addEventListener("click", () => swap(unitsDropdown),
+closeDropdown(units, unitsDropdown));
+daysBtn.addEventListener("click", () => swap(daysBtnDropdown), closeDropdown(daysBtn, daysBtnDropdown));
+unitsSwap.addEventListener("click", () => {
+    function toFahrenheit(celsius) {
+    return Math.round((celsius * 9) / 5 + 32);
+    }
+    function toMph(kmh) {
+        return Math.round(kmh / 1.609);
+    }
+    function toIn(mm) {
+        return Math.round(mm * 0.0393701);
+    }
+
+    function toImperial() {
+        currentTemp.innerHTML = toFahrenheit(currentTemp.innerHTML);
+        windSpeed.innerHTML = toMph(windSpeed.innerHTML);
+        feelsTemp.innerHTML = toFahrenheit(feelsTemp.innerHTML);
+        precipitate.innerHTML = toIn(precipitate.innerHTML);
+        for (let i = 0; i < temp_max.length; i++) {
+        temp_max[i].innerHTML = toFahrenheit(temp_max[i].innerHTML);
+        }
+        for (let i = 0; i < temp_min.length; i++) {
+            temp_min[i].innerHTML = toFahrenheit(temp_min[i].innerHTML);
+        }
+        for (let i = 0; i < hourly_temp.length; i++) {
+            hourly_temp[i].innerHTML = toFahrenheit(hourly_temp[i].innerHTML);
+        }
+    }
+
+    function toCelsius(fahrenheit) {
+    return Math.round((fahrenheit - 32) * 5 / 9);
+    }
+    function toMm(inches) {
+        return Math.round(inches * 25.4);
+    }
+    function tokmh(mph) {
+        return Math.round(mph * 1.60934);
+    }
+    
+    function toMetric() {
+        currentTemp.innerHTML = toCelsius(currentTemp.innerHTML);
+        windSpeed.innerHTML = tokmh(windSpeed.innerHTML);
+        feelsTemp.innerHTML = toCelsius(feelsTemp.innerHTML);
+        precipitate.innerHTML = toMm(precipitate.innerHTML);
+        for (let i = 0; i < temp_max.length; i++) {
+        temp_max[i].innerHTML = toCelsius(temp_max[i].innerHTML);
+        }
+        for (let i = 0; i < temp_min.length; i++) {
+            temp_min[i].innerHTML = toCelsius(temp_min[i].innerHTML);
+        }
+        for (let i = 0; i < hourly_temp.length; i++) {
+            hourly_temp[i].innerHTML = toCelsius(hourly_temp[i].innerHTML);
+        }
+    }
+
+            for (let i = 0; i < metricUnitArray.length; i++) {
+            if (metricUnitArray[i].style.display === "block" || metricUnitArray[i].style.display === "" || metricUnitArray[i].style.display === "inline-block") {
+                metricUnitArray[i].style.display = "none";
+            } else {
+                if (i === 0) {
+                    toMetric();
+                }
+                metricUnitArray[i].style.display = "inline-block";
+            }
+            };
+            for (let i = 0; i < imperialUnitArray.length; i++) {
+            if (imperialUnitArray[i].style.display === "none" || imperialUnitArray[i].style.display === ""){
+                if (i === 0) {
+                    toImperial();
+                }
+                imperialUnitArray[i].style.display = "inline-block";
+            } else {
+                imperialUnitArray[i].style.display = "none";
+            }
+            }
+
+});
 
 searchBar.addEventListener("input", async () => {
     const query = searchBar.value.trim();
@@ -100,6 +167,7 @@ searchBar.addEventListener("input", async () => {
         });
     }
 });
+searchBar.addEventListener("click", () => closeDropdown(searchBar, suggestedCitiesContainer));
 
 weekDaysArray.forEach((dayElement, index) => {
     dayElement.addEventListener("click", () => {
@@ -108,13 +176,12 @@ weekDaysArray.forEach((dayElement, index) => {
     });
 });
 
-// states
 function preLoader() {
     for(let i = 0; i < loadState.length; i++) {
-        loadingText[i].innerHTML = "&mdash;";
         loadingAnimation.style.zIndex = "4";
         daysBtn.innerHTML = "&mdash;";
         loadState[i].classList.add("loadingState");
+        loadingText.innerHTML = "&mdash;";
     };
 };
 
@@ -174,7 +241,7 @@ function displayWeather(weather, location) {
     let temp = Math.round(weather.current.temperature_2m);
     let humid = `${weather.current.relative_humidity_2m}%`;
     let wind = Math.round(weather.current.wind_speed_10m);
-    let feels = Math.round(weather.current.apparent_temperature);
+    let feels = Math.round(temp - 2);
     let today = new Date().toLocaleDateString("en-US",{
         weekday: "long", 
         month: "long", 
@@ -182,13 +249,19 @@ function displayWeather(weather, location) {
         year: "numeric"
     }
     );
+    console.log(temp);
+    console.log(wind);
+    console.log(feels);
 
     cityLocation.innerHTML = `${city}, ${country}`;
     currentTemp.innerHTML = temp;
     humidity.innerHTML = humid;
-    windSpeed.innerHTML = wind;
+    windSpeed.textContent = wind;
     feelsTemp.innerHTML = feels;
     date.innerHTML = today;
+    console.log(windSpeed.innerHTML);
+    console.log(precipitate.innerHTML);
+    console.log(feelsTemp.innerHTML);
 
     weatherIcon.src = getWeatherIcon(weather.current.weather_code);
 
@@ -234,8 +307,6 @@ function displayWeather(weather, location) {
     }
 }
 
-
-
 searchBtn.addEventListener("click", async (e) => {
     e.preventDefault();
     noResult.classList.remove("app-Error");
@@ -257,19 +328,3 @@ searchBtn.addEventListener("click", async (e) => {
         stopLoader();
     }
 });
-
-
-unitsSwap.addEventListener("click", () => {
-    useMetric = !useMetric;
-    unitToggle.textContent = useMetric ? "Switch to °F" : "Switch to °C";
-
-    if (lastWeather) {
-        displayWeather(lastWeather, lastWeather.city);
-    }
-});
-function toFahrenheit(celsius) {
-    return Math.round((celsius * 9) / 5 + 32);
-}
-function toMph(kmh) {
-    return Math.round(kmh / 1.609);
-}

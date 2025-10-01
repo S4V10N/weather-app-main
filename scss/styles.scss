@@ -30,6 +30,17 @@ body {
     min-height: 100vh;
     background-color: var(--bg-dark);
 }
+.temp_,
+#precipitate,
+.humidity,
+.temp-min,
+.temp-max,
+.wind-speed,
+.temp-current,
+.imperial,
+.metric {
+    transition: 1s ease-in-out;
+}
 .units__filter {
     position: absolute;
     z-index: 1;
@@ -201,6 +212,7 @@ label img {
     display: flex;
     align-items: center;
     padding-left: 1rem;
+    cursor: pointer;
     border-radius: 1rem;
 }
 .suggestions p:hover {
@@ -449,9 +461,6 @@ main {
 .attribution a:active {
     filter: brightness(1.3);
 }
-.app-Error {
-    display: none;
-}
 .noResult {
     display: none;
     margin: 0 auto;
@@ -550,7 +559,48 @@ main {
 .loadingState {
     z-index: 3;
 }
-
+.app-error {
+    width: min-content;
+}
+.appError {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-height: auto;
+}
+.appError :nth-child(1) {
+    transform: scale(1.5);
+    margin-bottom: 1.5rem;
+}
+.appError :nth-child(2) {
+    font-size: 3rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+}
+.appError :nth-child(3) {
+    max-width: 48rem;
+    margin-bottom: 1rem;
+}
+.appError :nth-child(4) {
+    background-color: var(--grey);
+    padding: 1.5rem;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    border: none;
+    font-size: 1.6rem;
+    gap: 1rem;
+    border-radius: 0.5rem;
+}
+.appError :nth-child(4) p{
+    font-size: 1.6rem;
+    margin: 0;
+}
+.appError :nth-child(4) img {
+    transform: scale(1.2);
+    margin: 0;
+}
 @media (min-width: 1440px) {
     .app {
         justify-content: center;

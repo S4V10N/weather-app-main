@@ -169,12 +169,6 @@ searchBar.addEventListener("input", async () => {
 });
 searchBar.addEventListener("click", () => closeDropdown(searchBar, suggestedCitiesContainer));
 
-weekDaysArray.forEach((dayElement, index) => {
-    dayElement.addEventListener("click", () => {
-        let selected = weekDaysArray[index];
-            daysBtn.innerHTML = selected.textContent;
-    });
-});
 
 function preLoader() {
     for(let i = 0; i < loadState.length; i++) {
@@ -190,7 +184,7 @@ function stopLoader() {
     for (let i = 0; i < loadState.length; i++) {
         loadState[i].classList.remove("loadingState");
     }
-}
+};
 
 function noResultErr() {
     noResult.classList.add("app-Error");
@@ -210,8 +204,9 @@ async function getWeather(location) {
 
     const { latitude, longitude, name, country } = geoData.results[0];
 
+    // ✅ Include weather_code + precipitation in daily
     const weatherRes = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,apparent_temperature,weather_code&hourly=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m,apparent_temperature,weather_code&hourly=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum&timezone=auto`
     );
     const weatherData = await weatherRes.json();
 
@@ -219,18 +214,18 @@ async function getWeather(location) {
     weatherData.country = country;
 
     return weatherData;
-}
+};
 
 function getWeatherIcon(code) {
-    if ([0].includes(code)) return ".//assets/images/icon-sunny.webp";
+    if ([0].includes(code)) return "./assets/images/icon-sunny.webp";
     if ([1, 2, 3].includes(code)) return "./assets/images/icon-overcast.webp";
-    if ([45, 48].includes(code)) return ".//assets/images/icon-fog.webp";
-    if ([51, 53, 55, 56, 57].includes(code)) return ".//assets/images/icon-drizzle.webp";
-    if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return ".//assets/images/icon-rain.webp";
-    if ([71, 73, 75, 77, 85, 86].includes(code)) return ".//assets/images/icon-snow.webp";
-    if ([95, 96, 99].includes(code)) return ".//assets/images/icon-storm.webp";
-    return ".//assets/images/icon-partly-cloudy.webp";
-}
+    if ([45, 48].includes(code)) return "./assets/images/icon-fog.webp";
+    if ([51, 53, 55, 56, 57].includes(code)) return "./assets/images/icon-drizzle.webp";
+    if ([61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "./assets/images/icon-rain.webp";
+    if ([71, 73, 75, 77, 85, 86].includes(code)) return "./assets/images/icon-snow.webp";
+    if ([95, 96, 99].includes(code)) return "./assets/images/icon-storm.webp";
+    return "./assets/images/icon-partly-cloudy.webp";
+};
 
 function displayWeather(weather, location) {
     let city = weather.city || location;
@@ -238,74 +233,154 @@ function displayWeather(weather, location) {
 
     console.log(`📍 Location: ${city}, ${country}`);
 
-    let temp = Math.round(weather.current.temperature_2m);
-    let humid = `${weather.current.relative_humidity_2m}%`;
-    let wind = Math.round(weather.current.wind_speed_10m);
-    let feels = Math.round(temp - 2);
-    let today = new Date().toLocaleDateString("en-US",{
-        weekday: "long", 
-        month: "long", 
-        day: "numeric",
-        year: "numeric"
-    }
-    );
-    console.log(temp);
-    console.log(wind);
-    console.log(feels);
-
-    cityLocation.innerHTML = `${city}, ${country}`;
-    currentTemp.innerHTML = temp;
-    humidity.innerHTML = humid;
-    windSpeed.textContent = wind;
-    feelsTemp.innerHTML = feels;
-    date.innerHTML = today;
-    console.log(windSpeed.innerHTML);
-    console.log(precipitate.innerHTML);
-    console.log(feelsTemp.innerHTML);
-
-    weatherIcon.src = getWeatherIcon(weather.current.weather_code);
-
-    // Daily
-    const { temperature_2m_max, temperature_2m_min, time,} = weather.daily;
-    for (let i = 0; i < 7; i++) {
-        let weekday = new Date(time[i]).toLocaleDateString("en-US", {
-            weekday: "short",
+    function updateCurrentFields(dayIndex) {
+        let dayDate = new Date(weather.daily.time[dayIndex]);
+        date.innerHTML = dayDate.toLocaleDateString("en-US", {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            year: "numeric"
         });
-        day_week[i].innerHTML = weekday;
 
-        let max = Math.round(temperature_2m_max[i]);
-        let min = Math.round(temperature_2m_min[i]);
+        cityLocation.innerHTML = `${city}, ${country}`;
 
-        if (temp_max[i]) temp_max[i].textContent = max;
-        if (temp_min[i]) temp_min[i].textContent = min;
-    }
+        if (dayIndex === 0) {
+            let temp = Math.round(weather.current.temperature_2m);
+            let humid = `${weather.current.relative_humidity_2m}%`;
+            let wind = Math.round(weather.current.wind_speed_10m);
+            let feels = Math.round(temp - 2);
 
-    const { temperature_2m, time: hourlyTime, weather_code } = weather.hourly;
-    let now = new Date();
-    let currentHourISO = now.toISOString().slice(0, 13);
-    let startIndex = hourlyTime.findIndex((t) => t.startsWith(currentHourISO));
+            currentTemp.innerHTML = temp;
+            humidity.innerHTML = humid;
+            windSpeed.textContent = wind;
+            feelsTemp.innerHTML = feels;
 
-    if (startIndex !== -1) {
-        for (let i = 0; i < 8; i++) {
-            let idx = startIndex + i;
-            if (idx >= hourlyTime.length) break;
-
-            let hourLabel = new Date(hourlyTime[idx]).toLocaleTimeString("en-US", {
-                hour: "numeric",
-            });
-            let weekday = new Date().toLocaleDateString("en-US",{
-            weekday: "long"
+            if (weather.current?.weather_code !== undefined) {
+                weatherIcon.src = getWeatherIcon(weather.current.weather_code);
             }
-            );
-            daysBtn.innerHTML = weekday;
-            let hourTemp = Math.round(temperature_2m[idx]);
+            if (weather.current?.precipitation !== undefined && precipitate) {
+                precipitate.textContent = Math.round(weather.current.precipitation);
+            }
+        } else {
+            const {
+                temperature_2m_max = [],
+                temperature_2m_min = [],
+                weather_code = [],
+                precipitation_sum = []
+            } = weather.daily;
 
-            if (hourly_time[i]) hourly_time[i].textContent = hourLabel;
-            if (hourly_temp[i]) hourly_temp[i].textContent = hourTemp;
-            if (hourly_icon[i]) hourly_icon[i].src = getWeatherIcon(weather_code[idx]);
+            let avgTemp = Math.round((temperature_2m_max[dayIndex] + temperature_2m_min[dayIndex]) / 2);
+            currentTemp.innerHTML = avgTemp;
+            feelsTemp.innerHTML = avgTemp;
+
+            let avgHumid = getDailyAvgFromHourly(dayIndex, "humidity");
+            let avgWind = getDailyAvgFromHourly(dayIndex, "wind");
+
+            humidity.innerHTML = `${avgHumid}%`;
+            windSpeed.textContent = avgWind;
+
+            let code = weather_code?.[dayIndex] ?? 0;
+            weatherIcon.src = getWeatherIcon(code);
+
+            if (precipitate) {
+                precipitate.textContent = precipitation_sum?.[dayIndex] ?? 0;
+            }
         }
     }
-}
+
+    function getDailyAvgFromHourly(dayIndex, type) {
+        if (!weather.hourly) return 0;
+
+        const {
+            time: hourlyTime = [],
+            relative_humidity_2m = [],
+            wind_speed_10m = []
+        } = weather.hourly;
+
+        let targetDate = new Date(weather.daily.time[dayIndex]).toISOString().slice(0, 10);
+
+        let values = hourlyTime
+            .map((t, idx) => {
+                if (!t.startsWith(targetDate)) return null;
+                if (type === "humidity") return relative_humidity_2m[idx];
+                if (type === "wind") return wind_speed_10m[idx];
+                return null;
+            })
+            .filter(v => v !== null && !isNaN(v));
+
+        if (!values.length) return 0;
+
+        let sum = values.reduce((a, b) => a + b, 0);
+        return Math.round(sum / values.length);
+    }
+
+    if (weather.daily) {
+        const {
+            temperature_2m_max = [],
+            temperature_2m_min = [],
+            time = [],
+            weather_code: dailyCodes = []
+        } = weather.daily;
+
+        for (let i = 0; i < 7; i++) {
+            if (!time[i]) continue;
+
+            let weekday = new Date(time[i]).toLocaleDateString("en-US", { weekday: "short" });
+            if (day_week?.[i]) day_week[i].textContent = weekday;
+
+            if (temp_max?.[i]) temp_max[i].textContent = Math.round(temperature_2m_max[i]);
+            if (temp_min?.[i]) temp_min[i].textContent = Math.round(temperature_2m_min[i]);
+
+            if (day_icon?.[i]) {
+                let code = dailyCodes[i] ?? 0;
+                day_icon[i].src = getWeatherIcon(code);
+                day_icon[i].alt = `Weather icon for ${weekday}`;
+            }
+        }
+    }
+
+    function renderHourlyForecast(dayIndex = 0) {
+        if (!weather.hourly) return;
+
+        const { temperature_2m = [], time: hourlyTime = [], weather_code = [] } = weather.hourly;
+
+        let targetDate = new Date(weather.daily.time[dayIndex]);
+        let dayStr = targetDate.toISOString().slice(0, 10);
+
+        let filteredHours = hourlyTime
+            .map((t, idx) => ({ t, idx }))
+            .filter(({ t }) => t.startsWith(dayStr));
+
+        let now = new Date();
+        let currentHour = now.getHours();
+        let startIndex = filteredHours.findIndex(({ t }) => new Date(t).getHours() === currentHour);
+        if (startIndex !== -1) filteredHours = filteredHours.slice(startIndex);
+
+        for (let i = 0; i < 8; i++) {
+            if (!filteredHours[i]) break;
+
+            let { t, idx } = filteredHours[i];
+            let hourLabel = new Date(t).toLocaleTimeString("en-US", { hour: "numeric" });
+
+            if (hourly_time?.[i]) hourly_time[i].textContent = hourLabel;
+            if (hourly_temp?.[i]) hourly_temp[i].textContent = Math.round(temperature_2m[idx]);
+            if (hourly_icon?.[i]) hourly_icon[i].src = getWeatherIcon(weather_code?.[idx] ?? 0);
+        }
+    }
+
+    updateCurrentFields(0);
+    renderHourlyForecast(0);
+
+    weekDaysArray.forEach((dayElement, index) => {
+        dayElement.textContent = new Date(weather.daily.time[index]).toLocaleDateString("en-US", { weekday: "long" });
+
+        dayElement.addEventListener("click", () => {
+            daysBtn.innerHTML = dayElement.textContent;
+            updateCurrentFields(index);
+            renderHourlyForecast(index);
+        });
+    });
+};
 
 searchBtn.addEventListener("click", async (e) => {
     e.preventDefault();

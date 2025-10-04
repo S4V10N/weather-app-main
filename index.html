@@ -57,12 +57,12 @@
         <form action="" id="search">
           <h1>How's the sky looking today?</h1>
           <fieldset>
-            <input type="text" name="search" id="searchBar" placeholder="Search for a place..." required autocomplete="off">
+            <input type="text" name="search" id="searchBar" placeholder="Search for a place..." required autocomplete="off" autocorrect="off" spellcheck="false">
             <label for="search">
               <img src="/assets/images/icon-search.svg" alt="search-icon">
             </label>
 
-            <div class="suggestions">
+            <div class="suggestions" >
               <p></p>
               <p></p>
               <p></p>
@@ -98,7 +98,7 @@
         <section class="weather-stats">
           <div>
             <p>Feels like</p>
-            <span class="temperature load-text"><span class="temp_">18</span>&deg;</span>
+            <span class="temperature load-text"><span class="temp_">18</span><span class="hiddenL">&deg;</span></span>
           </div>
           <div>
             <p>Humidity</p>
@@ -106,11 +106,11 @@
           </div>
           <div>
             <p>Wind</p>
-            <span class="wind load-text"><span class="wind-speed">14</span><span class="metric">km/h</span><span class="imperial">mph</span></span>
+            <span class="wind load-text"><span class="wind-speed">14</span><span class="hiddenL"><span class="metric">km/h</span><span class="imperial">mph</span></span></span>
           </div>
           <div>
             <p>Precipitation</p>
-            <span class="precipitate load-text"><span id="precipitate">0</span><span class="metric">mm</span><span class="imperial">in</span></span>
+            <span class="precipitate load-text"><span id="precipitate">0</span><span class="hiddenL"><span class="metric">mm</span><span class="imperial">in</span></span></span>
           </div>
         </section>
         <section class="daily-forecast">
@@ -277,7 +277,7 @@
         <img src="./assets/images/icon-error.svg" alt="error">
         <p>Something went wrong</p>
         <p>we could'nt connect to the server (API error). please try again in a few moments.</p>
-        <button><img src="./assets/images/icon-retry.svg" alt="retry button"><p>Retry</p></button>
+        <button onclick="location.reload()"><img src="./assets/images/icon-retry.svg" alt="retry button"><p>Retry</p></button>
       </div>
       <h2 class="noResult ">No search result found!</h2>
     </section>

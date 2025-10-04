@@ -273,27 +273,32 @@ function displayWeather(weather, location) {
         }
     }
 
-    function renderHourlyForecast(dayIndex = 0) {
+    function renderHourlyForecast(dayIndex) {
         if (!weather.hourly) return;
         const { temperature_2m = [], time: hourlyTime = [], weather_code = [] } = weather.hourly;
 
+        let now = new Date();
         let targetDate = new Date(weather.daily.time[dayIndex]).toISOString().slice(0, 10);
 
-        let filteredHours = hourlyTime
-            .map((t, idx) => {
-                let localTime = new Date(t); 
-                return { localTime, idx };
-            })
-            .filter(({ localTime }) => localTime.toISOString().slice(0, 10) === targetDate);
+        let startIndex = hourlyTime.findIndex(t => {
+            let localTime = new Date(t);
+            return (
+                t.startsWith(targetDate) &&
+                localTime.getHours() === now.getHours()
+            );
+        });
 
-        let now = new Date();
-        let currentHour = now.getHours();
-        let startIndex = filteredHours.findIndex(({ localTime }) => localTime.getHours() === currentHour);
-        if (startIndex !== -1) filteredHours = filteredHours.slice(startIndex);
+        if (startIndex === -1) {
+            startIndex = hourlyTime.findIndex(t => t.startsWith(targetDate));
+        }
+        if (startIndex === -1) startIndex = 0; 
+
+        let nextHours = hourlyTime.slice(startIndex, startIndex + 8);
 
         for (let i = 0; i < 8; i++) {
-            if (!filteredHours[i]) break;
-            let { localTime, idx } = filteredHours[i];
+            if (!nextHours[i]) break;
+            let idx = startIndex + i;
+            let localTime = new Date(hourlyTime[idx]);
             let hourLabel = localTime.toLocaleTimeString("en-US", { hour: "numeric" });
 
             if (hourly_time?.[i]) hourly_time[i].textContent = hourLabel;
@@ -309,12 +314,11 @@ function displayWeather(weather, location) {
         dayElement.textContent = new Date(weather.daily.time[index]).toLocaleDateString("en-US", { weekday: "long" });
         dayElement.addEventListener("click", () => {
             daysBtn.innerHTML = dayElement.textContent;
-            updateCurrentFields(index); 
-            renderHourlyForecast(index); 
+            updateCurrentFields(index);
+            renderHourlyForecast(index);
         });
     });
-}
-
+};
 
 unitsSwap.addEventListener("click", () => {
     function toFahrenheit(celsius) {
